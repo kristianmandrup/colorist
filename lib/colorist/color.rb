@@ -2,9 +2,9 @@ module Colorist
   # Color is the general class for storing and manipulating a color with the
   # Colorist gem. It provides methods to add, subtract, and calculate aspects
   # of the color based on W3C and other standards.
-  class Color            
+  class Color
     attr_accessor :r, :g, :b
-  
+
     CSS_COLOR_NAMES = {  "maroon"  => 0x800000,
                          "red"     => 0xff0000,
                          "orange"  => 0xffa500,
@@ -22,7 +22,7 @@ module Colorist
                          "black"   => 0x000000,
                          "silver"  => 0xc0c0c0,
                          "gray"    => 0x808080  }
-  
+
     # Creates a new color with the hex color provided as a number (i.e. 0x112233)
     def initialize(color=0x000000)
       string = "%.6x" % color
@@ -30,7 +30,7 @@ module Colorist
       @g = string[2..3].hex
       @b = string[4..5].hex
     end
-    
+
     # Initialize a color based on RGB values. By default, the values
     # should be between 0 and 255. If you use the option <tt>:percent => true</tt>,
     # the values should then be between 0.0 and 1.0.
@@ -38,37 +38,39 @@ module Colorist
       color = new
       # convert from 0.0 to 1.0 to 0 to 255 if the :percent option is used
       if options[:percent]
-        color.r, color.g, color.b = r * 255, g * 255, b * 255
+        color.r, color.g, color.b = (r * 255).round, (g * 255).round, (b * 255).round
       else
         color.r, color.g, color.b = r, g, b
       end
       color
     end
-    
+
     # Initialize a colour based on HSV/HSB values. Hue should be between 0 and 360 (inclusive),
     # while saturation and value should be from 0.0 to 1.0.
     def self.from_hsv(hue, saturation, value)
       saturation = 1 if saturation > 1
       value = 1 if saturation > 1
-      
+
       # Conversion formula taken from wikipedia
-      
-      f = (hue / 60.0) - (hue / 60)
-      
+
+      f = (hue / 60.0) - (hue / 60).floor
+
       p = value * (1 - saturation)
       q = value * (1 - (saturation * f))
       t = value * (1 - (saturation * (1 - f)))
-      
-      case ((hue / 60) % 6).floor
-        when 0 then from_rgb(value, t, p, :percent => true)
-        when 1 then from_rgb(q, value, p, :percent => true)
-        when 2 then from_rgb(p, value, t, :percent => true)
-        when 3 then from_rgb(p, q, value, :percent => true)
-        when 4 then from_rgb(t, p, value, :percent => true)
-        when 5 then from_rgb(value, p, q, :percent => true)
-      end
+
+      r, g, b = case (hue / 60).floor % 6
+                when 0 then [ value, t, p ]
+                when 1 then [ q, value, p ]
+                when 2 then [ p, value, t ]
+                when 3 then [ p, q, value ]
+                when 4 then [ t, p, value ]
+                when 5 then [ value, p, q ]
+                end
+
+      from_rgb(r, g, b, :percent => true)
     end
-        
+
     # Converts a CSS hex string into a color. Works both with the
     # full form (i.e. <tt>#ffffff</tt>) and the abbreviated form (<tt>#fff</tt>). Can
     # also take any of the 16 named CSS colors.
@@ -87,7 +89,7 @@ module Colorist
       end
       color
     end
-    
+
     # Create a new color from the provided object. Duplicates Color objects
     # and attempts to call <tt>to_color</tt> on other objects. Will raise
     # an ArgumentError if it is unable to coerce the color.
@@ -100,12 +102,12 @@ module Colorist
           some_entity.to_color
       end
     end
-  
+
     # Create a duplicate of this color.
     def dup
       self.class.from_rgb(@r,@g,@b)
     end
-  
+
     # Add the individual RGB values of two colors together. You
     # may also use an equivalent numeric or string color representation.
     #
@@ -124,7 +126,7 @@ module Colorist
       color.b += other_color.b
       color
     end
-  
+
     # Subtract the individual RGB values of the two colors together.
     # You may also use an equivalent numeric or string color representation.
     def -(other_color)
@@ -135,44 +137,44 @@ module Colorist
       color.b -= other_color.b
       color
     end
-    
+
     # Compares colors based on brightness.
     def <=>(other_color)
       other_color = self.class.from(other_color)
       brightness <=> other_color.brightness
     end
-    
+
     # Compares colors based on brightness.
     def < (other_color)
       other_color = self.class.from(other_color)
       brightness < other_color.brightness
     end
-    
+
     # Compares colors based on brightness.
     def > (other_color)
       other_color = self.class.from(other_color)
       brightness > other_color.brightness
     end
-    
+
     # Equal if the red, green, and blue values are identical.
     def ==(other_color)
       other_color = self.class.from(other_color)
       other_color.r == self.r && other_color.g == self.g && other_color.b == self.b
     end
-    
+
     # Equal if the brightnesses of the two colors are identical.
     def ===(other_color)
       other_color = self.class.from(other_color)
       other_color.brightness == brightness
     end
-    
+
     def r=(value) #:nodoc:
-      @r = value; normalize; end 
+      @r = value; normalize; end
     def g=(value) #:nodoc:
       @g = value; normalize; end
     def b=(value) #:nodoc:
       @b = value; normalize; end
-  
+
     # Outputs a string representation of the color in the desired format.
     # The available formats are:
     #
@@ -189,7 +191,7 @@ module Colorist
           "%.3f, %.3f, %.3f" % [r / 255, g / 255, b / 255]
       end
     end
-    
+
     # Returns an array of the hue, saturation and value of the color.
     # Hue will range from 0-359, hue and saturation will be between 0 and 1.
 
@@ -211,16 +213,16 @@ module Colorist
       saturation = (max == 0) ? 0 : (max - min) / max
       [hue % 360, saturation, max]
     end
-  
+
     def inspect
       "#<Color #{to_s(:css)}>"
     end
-  
+
     # Returns the perceived brightness of the provided color on a
     # scale of 0.0 to 1.0 based on the formula provided. The formulas
     # available are:
     #
-    # * <tt>:w3c</tt> - <tt>((r * 299 + g * 587 + b * 114) / 1000 / 255</tt>    
+    # * <tt>:w3c</tt> - <tt>((r * 299 + g * 587 + b * 114) / 1000 / 255</tt>
     # * <tt>:standard</tt> - <tt>sqrt(0.241 * r^2 + 0.691 * g^2 + 0.068 * b^2) / 255</tt>
     def brightness(formula=:w3c)
       case formula
@@ -230,7 +232,7 @@ module Colorist
           ((r * 299 + g * 587 + b * 114) / 255000.0)
       end
     end
-    
+
     # Contrast this color with another color using the provided formula. The
     # available formulas are:
     #
@@ -244,12 +246,12 @@ module Colorist
           ([self.b, other_color.b].max - [self.b, other_color.b].min)) / 765.0
       end
     end
-    
+
     # Returns the opposite of the current color.
     def invert
       self.class.from_rgb(255 - r, 255 - g, 255 - b)
     end
-        
+
     # Uses a naive formula to generate a gradient between this color and the given color.
     # Returns the array of colors that make the gradient, including this color and the
     # target color.  By default will return 10 colors, but this can be changed by supplying
@@ -259,36 +261,36 @@ module Colorist
       red = color_to.r - r
       green = color_to.g - g
       blue = color_to.b - b
-            
+
       result = (1..(steps - 3)).to_a.collect do |step|
         percentage = step.to_f / (steps - 1)
         self.class.from_rgb(r + (red * percentage), g + (green * percentage), b + (blue * percentage))
       end
-      
+
       # Add first and last colors to result, avoiding uneccessary calculation and rounding errors
-      
+
       result.unshift(self.dup)
       result.push(color.dup)
       result
     end
-    
+
     # Converts the current color to grayscale using the brightness
-    # formula provided. See #brightness for a description of the 
+    # formula provided. See #brightness for a description of the
     # available formulas.
     def to_grayscale(formula=:w3c)
       b = brightness(formula)
       self.class.from_rgb(255 * b, 255 * b, 255 * b)
     end
-  
+
     # Returns an appropriate text color (either black or white) based on
     # the brightness of this color. The +threshold+ specifies the brightness
     # cutoff point.
     def text_color(threshold=0.6, formula=:standard)
       brightness(formula) > threshold ? self.class.new(0x000000) : self.class.new(0xffffff)
     end
-  
+
     protected
-  
+
     def normalize #:nodoc:
       @r = 255 if @r > 255
       @g = 255 if @g > 255
