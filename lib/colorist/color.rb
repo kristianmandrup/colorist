@@ -35,7 +35,7 @@ module Colorist
     # should be between 0 and 255. If you use the option <tt>:percent => true</tt>,
     # the values should then be between 0.0 and 1.0.
     def self.from_rgb(r,g,b,options={})
-      color = Colorist::Color.new
+      color = new
       # convert from 0.0 to 1.0 to 0 to 255 if the :percent option is used
       if options[:percent]
         color.r, color.g, color.b = r * 255, g * 255, b * 255
@@ -74,14 +74,14 @@ module Colorist
     # also take any of the 16 named CSS colors.
     def self.from_string(some_string)
       if matched = some_string.match(/\A#([0-9a-f]{3})\z/i)
-        color = Colorist::Color.from_rgb(*matched[1].split(//).collect{|v| "#{v}#{v}".hex })
+        color = from_rgb(*matched[1].split(//).collect{|v| "#{v}#{v}".hex })
       elsif matched = some_string.match(/\A#([0-9a-f]{6})\z/i)
-        color = Colorist::Color.new
+        color = new
         color.r = matched[1][0..1].hex
         color.g = matched[1][2..3].hex
         color.b = matched[1][4..5].hex
       elsif CSS_COLOR_NAMES.key?(some_string)
-        color = Colorist::Color.new(CSS_COLOR_NAMES[some_string])
+        color = new(CSS_COLOR_NAMES[some_string])
       else
         raise ArgumentError, "Must provide a valid CSS hex color or color name.", caller
       end
@@ -103,7 +103,7 @@ module Colorist
   
     # Create a duplicate of this color.
     def dup
-      Colorist::Color.from_rgb(@r,@g,@b)
+      self.class.from_rgb(@r,@g,@b)
     end
   
     # Add the individual RGB values of two colors together. You
@@ -117,7 +117,7 @@ module Colorist
     #   white = "white".to_color
     #   gray + white    # => <Color #ffffff>
     def +(other_color)
-      other_color = Colorist::Color.from(other_color)
+      other_color = self.class.from(other_color)
       color = self.dup
       color.r += other_color.r
       color.g += other_color.g
@@ -128,7 +128,7 @@ module Colorist
     # Subtract the individual RGB values of the two colors together.
     # You may also use an equivalent numeric or string color representation.
     def -(other_color)
-      other_color = Colorist::Color.from(other_color)
+      other_color = self.class.from(other_color)
       color = self.dup
       color.r -= other_color.r
       color.g -= other_color.g
@@ -138,31 +138,31 @@ module Colorist
     
     # Compares colors based on brightness.
     def <=>(other_color)
-      other_color = Colorist::Color.from(other_color)
+      other_color = self.class.from(other_color)
       brightness <=> other_color.brightness
     end
     
     # Compares colors based on brightness.
     def < (other_color)
-      other_color = Colorist::Color.from(other_color)
+      other_color = self.class.from(other_color)
       brightness < other_color.brightness
     end
     
     # Compares colors based on brightness.
     def > (other_color)
-      other_color = Colorist::Color.from(other_color)
+      other_color = self.class.from(other_color)
       brightness > other_color.brightness
     end
     
     # Equal if the red, green, and blue values are identical.
     def ==(other_color)
-      other_color = Colorist::Color.from(other_color)
+      other_color = self.class.from(other_color)
       other_color.r == self.r && other_color.g == self.g && other_color.b == self.b
     end
     
     # Equal if the brightnesses of the two colors are identical.
     def ===(other_color)
-      other_color = Colorist::Color.from(other_color)
+      other_color = self.class.from(other_color)
       other_color.brightness == brightness
     end
     
@@ -236,7 +236,7 @@ module Colorist
     #
     # * <tt>:w3c</tt> - <tt>(max(r1 r2) - min(r1 r2)) + (max(g1 g2) - min(g1 g2)) + (max(b1 b2) - min(b1 b2))</tt>
     def contrast_with(other_color, formula=:w3c)
-      other_color = Color.from(other_color)
+      other_color = self.class.from(other_color)
       case formula
         when :w3c
           (([self.r, other_color.r].max - [self.r, other_color.r].min) +
@@ -247,7 +247,7 @@ module Colorist
     
     # Returns the opposite of the current color.
     def invert
-      Color.from_rgb(255 - r, 255 - g, 255 - b)
+      self.class.from_rgb(255 - r, 255 - g, 255 - b)
     end
         
     # Uses a naive formula to generate a gradient between this color and the given color.
@@ -255,14 +255,14 @@ module Colorist
     # target color.  By default will return 10 colors, but this can be changed by supplying
     # an optional steps parameter.
     def gradient_to(color, steps = 10)
-      color_to = Colorist::Color.from(color)
+      color_to = self.class.from(color)
       red = color_to.r - r
       green = color_to.g - g
       blue = color_to.b - b
             
       result = (1..(steps - 3)).to_a.collect do |step|
         percentage = step.to_f / (steps - 1)
-        Color.from_rgb(r + (red * percentage), g + (green * percentage), b + (blue * percentage))
+        self.class.from_rgb(r + (red * percentage), g + (green * percentage), b + (blue * percentage))
       end
       
       # Add first and last colors to result, avoiding uneccessary calculation and rounding errors
@@ -277,14 +277,14 @@ module Colorist
     # available formulas.
     def to_grayscale(formula=:w3c)
       b = brightness(formula)
-      Color.from_rgb(255 * b, 255 * b, 255 * b)
+      self.class.from_rgb(255 * b, 255 * b, 255 * b)
     end
   
     # Returns an appropriate text color (either black or white) based on
     # the brightness of this color. The +threshold+ specifies the brightness
     # cutoff point.
     def text_color(threshold=0.6, formula=:standard)
-      brightness(formula) > threshold ? Colorist::Color.new(0x000000) : Colorist::Color.new(0xffffff)
+      brightness(formula) > threshold ? self.class.new(0x000000) : self.class.new(0xffffff)
     end
   
     protected
