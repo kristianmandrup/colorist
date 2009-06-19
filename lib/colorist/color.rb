@@ -252,6 +252,8 @@ module Colorist
       self.class.from_rgb(255 - r, 255 - g, 255 - b)
     end
 
+    alias opposite invert
+
     # Uses a naive formula to generate a gradient between this color and the given color.
     # Returns the array of colors that make the gradient, including this color and the
     # target color.  By default will return 10 colors, but this can be changed by supplying
@@ -289,6 +291,22 @@ module Colorist
       brightness(formula) > threshold ? self.class.new(0x000000) : self.class.new(0xffffff)
     end
 
+    # Adjusts any of H, S, V values with relative values: +opts[:h]+, +opts[:s]+, +opts[:v]+
+    # and returns adjusted value.
+    def adjust(opts = {})
+      unless [:h, :s, :v].any? { |part| opts.include? part }
+        raise ArgumentError, "please specify at least one of :h, :s, or :v options"
+      end
+
+      h, s, v = *self.to_hsv
+
+      h = _within(0, h + opts[:h], 359) if opts[:h]
+      s = _within(0, s + opts[:s], 1)   if opts[:s]
+      v = _within(0, v + opts[:v], 1)   if opts[:v]
+
+      self.class.from_hsv(h, s, v)
+    end
+
     protected
 
     def normalize #:nodoc:
@@ -298,6 +316,16 @@ module Colorist
       @r = 0 if @r < 0
       @g = 0 if @g < 0
       @b = 0 if @b < 0
+    end
+
+    def _within(min, value, max)
+      if value < min
+        min
+      elsif value > max
+        max
+      else
+        value
+      end
     end
   end
 end
