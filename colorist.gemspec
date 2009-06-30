@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = 'colorist'
-  s.version = '0.0.3.1'
+  s.version = '0.0.4'
 
   s.required_rubygems_version = Gem::Requirement.new('>= 0') if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Bleigh", "oleg dashevskii", "Slippy Douglas"]
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
+    s.specification_version = 4
     
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
     else
