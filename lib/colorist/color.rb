@@ -138,6 +138,48 @@ module Colorist
       color
     end
 
+    # Multiply the individual RGB values of two colors together or against a Float.
+    # Colors divided in a way that is equivalent to each of the values being normalized to 0.0..1.0 prior to the operation
+    #   and normalized back to 0.0..255.0 after the operation.
+    # You may also use an equivalent numeric or string color representation.
+    def *(other)
+      color = self.dup
+      
+      if other.is_a? Float
+        color.r *= other
+        color.g *= other
+        color.b *= other
+      else
+        other_color = self.class.from(other)
+        color.r = color.r * other_color.r / 255.0
+        color.g = color.g * other_color.g / 255.0
+        color.b = color.b * other_color.b / 255.0
+      end
+      
+      color
+    end
+
+    # Divide the individual RGB values of the two colors together or against a Float.
+    # Colors divided in a way that is equivalent to each of the values being normalized to 0.0..1.0 prior to the operation
+    #   and normalized back to 0.0..255.0 after the operation.
+    # You may also use an equivalent numeric or string color representation.
+    def /(other)
+      color = self.dup
+      
+      if other.is_a? Float
+        color.r /= other
+        color.g /= other
+        color.b /= other
+      else
+        other_color = self.class.from(other)
+        color.r = color.r / other_color.r * 255.0
+        color.g = color.g / other_color.g * 255.0
+        color.b = color.b / other_color.b * 255.0
+      end
+      
+      color
+    end
+
     # Compares colors based on brightness.
     def <=>(other_color)
       other_color = self.class.from(other_color)
