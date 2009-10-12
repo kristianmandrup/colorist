@@ -18,7 +18,23 @@ on the available methods.
   gray.brightness # => 0.2
 
   gray.contrast_with("#f00")
+
+== Installation
+
+First, make sure you have GemCutter set up:
+  gem install gemcutter
+  gem tumble
+
+Then, grab the gem:
+  gem install slippyd-colorist
+
+Last, add the requirement to your project and enjoy!
+  # in environment.rb, after "Rails::Initializer.run do |config|":
+  config.gem 'slippyd-colorist', :lib => false, :version => '0.0.5'
   
+  # in any class or module that you want to use Colorist:
+  include Colorist
+
 == Resources
 
 * GitHub Source: http://github.com/mbleigh/colorist
