@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "colorist"
+    gem.name = "slippyd-colorist"
     gem.summary = %Q{A library built to handle the easy conversion and simple manipulation of colors.}
     gem.email = "slippyd-colorist@6bitt.com"
     gem.homepage = "http://github.com/slippyd/colorist"
