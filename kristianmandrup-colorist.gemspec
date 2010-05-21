@@ -24,8 +24,11 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "extractions/extract_colors.rb",
+     "kristianmandrup-colorist.gemspec",
      "lib/colorist.rb",
      "lib/colorist/color.rb",
+     "lib/colorist/color_names.rb",
      "lib/colorist/core_extensions.rb",
      "slippyd-colorist.gemspec"
   ]
