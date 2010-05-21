@@ -4,11 +4,11 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "slippyd-colorist"
+    gem.name = "kristianmandrup-colorist"
     gem.summary = %Q{A library built to handle the easy conversion and simple manipulation of colors.}
-    gem.email = "slippyd-colorist@6bitt.com"
-    gem.homepage = "http://github.com/slippyd/colorist"
-    gem.authors = ["Michael Bleigh", "oleg dashevskii", "Slippy Douglas"]
+    gem.email = "kmandrup@gmail.com"
+    gem.homepage = "http://github.com/kristianmandrup/colorist"
+    gem.authors = ["Michael Bleigh", "oleg dashevskii", "Slippy Douglas", "Kristian Mandrup"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.description = "Colorist is a library built to handle the easy conversion and manipulation of colors with a special emphasis on W3C standards and CSS-style hex color notation."
     gem.has_rdoc = true
