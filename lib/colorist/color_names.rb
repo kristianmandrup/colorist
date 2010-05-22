@@ -356,9 +356,9 @@ module Colorist
     'white' => '#FFFFFF'
     }
     
-    def self.color(name, options = nil)     
+    def self.color(name, *options)     
       col = name 
-      col = COLORS[name.downcase.strip] if !(name.include?('#') || name.include?('0x'))      
+      col = COLORS[name.downcase.strip] if !hex? name
       raise ArgumentError, "The color name '#{name}' cannot be coerced into a color." if !col           
       res = if options.include?(:hex)
         col.sub /#/, '0x'
@@ -368,8 +368,13 @@ module Colorist
       options.include?(:lower) ? res.downcase : res
     end
     
-    def self.to_color(hex)
-      search = hex.sub(/0x/, '#').upcase
+    def self.to_color(hex_number)
+      if !hex?(hex_number)
+        col = color(hex_number)        
+        return col if col
+        raise ArgumentError, "The hex number '#{hex_number}' to search for must start with either '#' or '0x' and contain 6 hex chars"
+      end
+      search = hex_number.sub(/0x/, '#').upcase
       found  = nil
       # puts "search for #{search}"
       COLORS.each_pair do |k, v|
@@ -378,8 +383,14 @@ module Colorist
           break
         end
       end      
-      raise ArgumentError, "No named color could be found for '#{hex}'" if !found           
+      raise ArgumentError, "No named color could be found for '#{hex_number}'" if !found           
       found
+    end
+
+    private 
+    
+    def self.hex?(s)         
+      s.match(/^#/) || s.match(/^0x/)      
     end
     
   end
@@ -387,11 +398,13 @@ end
 
 # TESTING
 
-# puts x = Colorist::ColorNames.color('#FFFFAA', [:hex, :lower])                                                              
+# puts x = Colorist::ColorNames.color('#FFFFAA', :lower)                                                              
 # puts x = Colorist::ColorNames.color('0xFFFFAA', [:hex, :lower])                                                              
 # puts x = Colorist::ColorNames.color('coconut', [:hex, :lower])                                                              
 # puts x = Colorist::ColorNames.color('Coconut', [:hex, :lower])
 #puts Colorist::ColorNames.to_color(x)                                                                                       
+
+# puts Colorist::ColorNames.to_color('coconut')
 # 
 # # can't be found
 # puts Colorist::ColorNames.to_color('#FFDDEE')
