@@ -1,7 +1,24 @@
 module Colorist
   module ColorNames
-    COLORS = {
-    'black' => '#000000',
+    COLORS = {      
+   "maroon"  => '#800000',
+   "red"     => '#FF0000',
+   "orange"  => '#FFA500',
+   "yellow"  => '#FFFF00',
+   "olive"   => '#808000',
+   "purple"  => '#800080',
+   "fuchsia" => '#FF00FF',
+   "white"   => '#FFFFFF',
+   "lime"    => '#00FF00',
+   "green"   => '#008000',
+   "navy"    => '#000080',
+   "blue"    => '#0000FF',
+   "aqua"    => '#00FFFF',
+   "teal"    => '#008080',
+   "black"   => '#000000',
+   "silver"  => '#C0C0C0',
+   "gray"    => '#808080',      
+    # 'black' => '#000000',
     'midnightblue' => '#000033',
     'navy' => '#000080',
     'darkblue' => '#00008B',
@@ -352,8 +369,8 @@ module Colorist
     'lemonchiffon' => '#FFFACD',
     'coconut' => '#FFFCCF',
     'popcornyellow' => '#FFFFAA',
-    'ivory' => '#FFFFF0',
-    'white' => '#FFFFFF'
+    'ivory' => '#FFFFF0'
+    #'white' => '#FFFFFF'
     }
     
     def self.color(name, *options)     
@@ -403,7 +420,7 @@ end
 
 # puts x = Colorist::ColorNames.color(:'#FFFFAA', :lower)                                                              
 # puts x = Colorist::ColorNames.color('0xFFFFAA', [:hex, :lower])                                                              
-# puts x = Colorist::ColorNames.color(:coconut, :hex, :lower)                                                              
+# puts x = Colorist::ColorNames.color(:red, :hex, :lower)                                                              
 # puts x = Colorist::ColorNames.color('Coconut', [:hex, :lower])
 #puts Colorist::ColorNames.to_color(x)                                                                                       
 
