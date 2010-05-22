@@ -357,6 +357,8 @@ module Colorist
     }
     
     def self.color(name, *options)     
+      name = name.to_s
+      options.flatten!
       col = name 
       col = COLORS[name.downcase.strip] if !hex? name
       raise ArgumentError, "The color name '#{name}' cannot be coerced into a color." if !col           
@@ -364,11 +366,12 @@ module Colorist
         col.sub /#/, '0x'
       else
         col
-      end
+      end                         
       options.include?(:lower) ? res.downcase : res
     end
     
     def self.to_color(hex_number)
+      hex_number = hex_number.to_s      
       if !hex?(hex_number)
         col = color(hex_number)        
         return col if col
@@ -398,9 +401,9 @@ end
 
 # TESTING
 
-# puts x = Colorist::ColorNames.color('#FFFFAA', :lower)                                                              
+# puts x = Colorist::ColorNames.color(:'#FFFFAA', :lower)                                                              
 # puts x = Colorist::ColorNames.color('0xFFFFAA', [:hex, :lower])                                                              
-# puts x = Colorist::ColorNames.color('coconut', [:hex, :lower])                                                              
+# puts x = Colorist::ColorNames.color(:coconut, :hex, :lower)                                                              
 # puts x = Colorist::ColorNames.color('Coconut', [:hex, :lower])
 #puts Colorist::ColorNames.to_color(x)                                                                                       
 

@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kmandrup-colorist}
-  s.version = "0.0.7"
+  s.version = "0.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Bleigh", "oleg dashevskii", "Slippy Douglas", "Kristian Mandrup"]
@@ -25,9 +25,11 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "extractions/extract_colors.rb",
+     "kmandrup-colorist.gemspec",
      "lib/colorist/color.rb",
      "lib/colorist/color_names.rb",
-     "lib/colorist/core_extensions.rb"
+     "lib/colorist/core_extensions.rb",
+     "lib/kmandrup-colorist.rb"
   ]
   s.homepage = %q{http://github.com/kristianmandrup/colorist}
   s.rdoc_options = ["--main", "README.rdoc"]
