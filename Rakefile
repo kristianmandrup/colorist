@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "kristianmandrup-colorist"
+    gem.name = "kmandrup-colorist"
     gem.summary = %Q{A library built to handle the easy conversion and simple manipulation of colors.}
     gem.email = "kmandrup@gmail.com"
     gem.homepage = "http://github.com/kristianmandrup/colorist"
