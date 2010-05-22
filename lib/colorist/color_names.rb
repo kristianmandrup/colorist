@@ -394,15 +394,23 @@ module Colorist
         return col if col
         raise ArgumentError, "The hex number '#{hex_number}' to search for must start with either '#' or '0x' and contain 6 hex chars"
       end
-      search = hex_number.sub(/0x/, '#').upcase
+      search = hex_number.sub(/0x/, '#').upcase      
+      
       found  = nil
       # puts "search for #{search}"
+      
+      if search.size == 4
+        search = '#' + search[1..-1].each_char.map{|m| m + m}.join 
+      end
+      # puts "search for #{search}"      
+      
       COLORS.each_pair do |k, v|
         if v == search
-          found = v 
+          found = k 
           break
         end
       end      
+      # puts "found: #{found}"
       raise ArgumentError, "No named color could be found for '#{hex_number}'" if !found           
       found
     end
@@ -418,6 +426,7 @@ end
 
 # TESTING
 
+# puts Colorist::ColorNames.color('#FFF', :lower)                                                              
 # puts x = Colorist::ColorNames.color(:'#FFFFAA', :lower)                                                              
 # puts x = Colorist::ColorNames.color('0xFFFFAA', [:hex, :lower])                                                              
 # puts x = Colorist::ColorNames.color(:red, :hex, :lower)                                                              
@@ -427,7 +436,7 @@ end
 # puts Colorist::ColorNames.to_color('coconut')
 # 
 # # can't be found
-# puts Colorist::ColorNames.to_color('#FFDDEE')
+# puts Colorist::ColorNames.to_color('#FFF')
 # puts Colorist::ColorNames.color('hello', [:hex, :lower])
 
 
