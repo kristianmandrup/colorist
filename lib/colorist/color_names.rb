@@ -356,8 +356,9 @@ module Colorist
     'white' => '#FFFFFF'
     }
     
-    def self.color(name, options = nil)
-      col = COLORS[name]
+    def self.color(name, options = nil)     
+      col = name 
+      col = COLORS[name.downcase.strip] if !(name.include?('#') || name.include?('0x'))      
       raise ArgumentError, "The color name '#{name}' cannot be coerced into a color." if !col           
       res = if options.include?(:hex)
         col.sub /#/, '0x'
@@ -386,8 +387,11 @@ end
 
 # TESTING
 
+# puts x = Colorist::ColorNames.color('#FFFFAA', [:hex, :lower])                                                              
+# puts x = Colorist::ColorNames.color('0xFFFFAA', [:hex, :lower])                                                              
 # puts x = Colorist::ColorNames.color('coconut', [:hex, :lower])                                                              
-# puts Colorist::ColorNames.to_color(x)                                                                                       
+# puts x = Colorist::ColorNames.color('Coconut', [:hex, :lower])
+#puts Colorist::ColorNames.to_color(x)                                                                                       
 # 
 # # can't be found
 # puts Colorist::ColorNames.to_color('#FFDDEE')
