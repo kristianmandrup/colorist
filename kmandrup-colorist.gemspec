@@ -29,13 +29,17 @@ Gem::Specification.new do |s|
      "lib/colorist/color.rb",
      "lib/colorist/color_names.rb",
      "lib/colorist/core_extensions.rb",
-     "lib/kmandrup-colorist.rb"
+     "lib/kmandrup-colorist.rb",
+     "test/colorist_test.rb"
   ]
   s.homepage = %q{http://github.com/kristianmandrup/colorist}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{A library built to handle the easy conversion and simple manipulation of colors.}
+  s.test_files = [
+    "test/colorist_test.rb"
+  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
