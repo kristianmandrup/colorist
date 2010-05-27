@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Bleigh", "oleg dashevskii", "Slippy Douglas", "Kristian Mandrup"]
-  s.date = %q{2010-05-21}
+  s.date = %q{2010-05-27}
   s.description = %q{Colorist is a library built to handle the easy conversion and manipulation of colors with a special emphasis on W3C standards and CSS-style hex color notation.}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -34,14 +34,14 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/kristianmandrup/colorist}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{A library built to handle the easy conversion and simple manipulation of colors.}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
     else
     end
   else
