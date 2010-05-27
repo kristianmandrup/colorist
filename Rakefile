@@ -15,7 +15,7 @@ begin
     gem.rdoc_options = ["--main", "README.rdoc"]
     gem.extra_rdoc_files = ["MIT_LICENSE.rdoc", "README.rdoc"]
   end
-
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
