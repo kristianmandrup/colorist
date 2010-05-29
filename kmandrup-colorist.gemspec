@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{kmandrup-colorist}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Bleigh", "oleg dashevskii", "Slippy Douglas", "Kristian Mandrup"]
-  s.date = %q{2010-05-27}
+  s.date = %q{2010-05-29}
   s.description = %q{Colorist is a library built to handle the easy conversion and manipulation of colors with a special emphasis on W3C standards and CSS-style hex color notation.}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
