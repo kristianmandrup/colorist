@@ -1,7 +1,7 @@
 require '../lib/kmandrup-colorist'
 
 # puts Colorist::ColorNames.color('0xfff', :lower)                                                              
-# puts Colorist::ColorNames.color('blue', :lower, :simple)
+puts Colorist::ColorNames.color('blue', :lower, :simple)
 # puts x = Colorist::ColorNames.color(:'#FFFFAA', :lower)                                                              
 # puts x = Colorist::ColorNames.color('0xFFFFAA', [:hex, :lower])                                                              
 # puts x = Colorist::ColorNames.color(:red, :hex, :lower)                                                              

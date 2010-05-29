@@ -377,7 +377,6 @@ module Colorist
       name = hexify(name.to_s) if hex?(name)
       options.flatten!
       col = name
-      puts "name: #{name}"
       col = COLORS[name.downcase.strip] if !hex?(name)
       raise ArgumentError, "The color name '#{name}' cannot be coerced into a color." if !col           
       res = if options.include?(:hex)
