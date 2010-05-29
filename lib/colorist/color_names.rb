@@ -374,17 +374,24 @@ module Colorist
     }
     
     def self.color(name, *options)     
-      name = hexify(name.to_s)
+      name = hexify(name.to_s) if hex?(name)
       options.flatten!
       col = name
-      col = COLORS[name.downcase.strip] if !hex? name
+      puts "name: #{name}"
+      col = COLORS[name.downcase.strip] if !hex?(name)
       raise ArgumentError, "The color name '#{name}' cannot be coerced into a color." if !col           
       res = if options.include?(:hex)
         col.sub /#/, '0x'
       else
         col
       end                         
-      options.include?(:lower) ? res.downcase : res
+      res = options.include?(:lower) ? res.downcase : res      
+      res = options.include?(:simple) ? remove(res, '#', '0x') : res
+    end
+
+    def self.remove(txt, *args)
+      args.each{|a| txt.gsub! a, '' }
+      txt
     end
     
     def self.to_color(hex_number)
